@@ -1,0 +1,22 @@
+# Dockerfile.dev for UI (Development)
+
+# Use Node.js v20.16.0 as the base image
+FROM node:20.16.0
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy all application files
+COPY . .
+
+# Expose the ports for Next.js and Node.js debugging
+EXPOSE 3000 9229
+
+# Start Next.js in development mode with debugging enabled
+CMD ["node", "--inspect=0.0.0.0:9229", "node_modules/.bin/next", "dev"]
