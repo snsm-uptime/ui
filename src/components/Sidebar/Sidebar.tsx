@@ -3,7 +3,7 @@ import SidebarSection from "./SidebarSection/SidebarSection";
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 p-4 flex flex-col bg-secondary-500 dark:bg-black-500">
+    <aside className="w-64 p-4 flex flex-col bg-[var(--bg-z1)]">
       <nav className="space-y-6">
         <SidebarSection
           title="Dashboard"
