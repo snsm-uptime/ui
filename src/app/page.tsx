@@ -1,3 +1,6 @@
+import TotalExpenses from "@/components/Dashboard/Cards/TotalExpenses";
+
 export default function Home() {
-  return <h1>Welcome to Your Finance Dashboard</h1>;
+  return <TotalExpenses />
+
 }
