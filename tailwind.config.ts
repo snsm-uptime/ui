@@ -9,6 +9,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'elevation-1': '0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24)',
+        'elevation-2': '0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23)',
+        'elevation-3': '0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23)',
+        // add more elevations as needed
+      },
       colors: {
         /* White shades */
         white: {
