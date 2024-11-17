@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const TransactionSchema = z.object({
   id: z.string(),
@@ -6,12 +6,14 @@ export const TransactionSchema = z.object({
   bank_email: z.string().email(),
   business: z.string(),
   currency: z.string().length(3), // E.g., "USD"
-  date: z.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date" }),
+  date: z
+    .string()
+    .refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date" }),
   value: z.number(),
   body: z.string(),
-  business_type: z.string().optional(),
-  expense_priority: z.number().optional(),
-  expense_type: z.number().optional(),
+  business_type: z.string().nullable(),
+  expense_priority: z.number().nullable(),
+  expense_type: z.number().nullable(),
 });
 
 export type Transaction = z.infer<typeof TransactionSchema>;

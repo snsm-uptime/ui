@@ -5,7 +5,7 @@ import { useTransactions } from "@/hooks/useTransactions";
 
 const TransactionsPage: React.FC = () => {
     const [page, setPage] = useState(1);
-    const pageSize = 10; // Items per page
+    const pageSize = 50; // Items per page
 
     const { transactions, pagination, isLoading, error } = useTransactions(page, pageSize);
 
