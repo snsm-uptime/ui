@@ -11,11 +11,10 @@ import { useTheme } from "@/components/ThemeContext";
 export default function SidebarButtonGroup() {
   const { theme, toggleTheme } = useTheme();
   const iconStyles = "h-6 w-6";
-  const buttonStyles =
-    "p-2 rounded-full text-[var(--h2)] hover:bg-[var(--bg-z0)] hover:text-[var(--bg-z1)] dark:hover:text-[var(--h1)]";
+  const buttonStyles = "hov-circle on-z1";
 
   return (
-    <div className="flex text-secondary justify-around items-center mt-auto py-4 border-t border-[var(--bg-z0)]">
+    <div className="flex justify-around items-center mt-auto py-4 border-t border-[var(--bg-z0)]">
       <button
         className={buttonStyles}
         onClick={toggleTheme}
