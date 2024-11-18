@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
+  const rowsPerPage = 5;
   const { transactions, pagination, isLoading, error } = useTransactions(page, rowsPerPage);
 
   return TransactionTable({
