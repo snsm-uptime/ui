@@ -20,7 +20,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@nextui-org/*": ["./node_modules/@nextui-org/*"]
     }
   },
   "include": [
