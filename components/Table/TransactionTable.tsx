@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/table";
 import { Transaction } from "@/models/Transaction";
 import { Pagination as PaginationSchema } from "@/models";
-import RefreshTransactionTable from "../Refresh/RefreshTransactionTable";
+import FetchOptionsDropdown from "../Refresh/FetchOptionsDropdown";
 
 interface TransactionTableProps {
     transactions: Transaction[];
@@ -39,7 +39,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
         return onPageChange && pagination && pagination.total_pages > 0 ? (
             <Pagination
-                isCompact
                 showControls
                 showShadow
                 color="primary"
@@ -56,7 +55,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             bottomContent={
                 <div className="flex justify-between items-center">
                     {buildPagination()}
-                    <RefreshTransactionTable />
+                    <FetchOptionsDropdown />
                 </div>
             }
         >

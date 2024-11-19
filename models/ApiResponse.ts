@@ -26,3 +26,15 @@ export const TransactionsResponseSchema = ApiResponseSchema(
 );
 
 export type TransactionsResponse = z.infer<typeof TransactionsResponseSchema>;
+
+export const PullTransactionsResponseSchema = ApiResponseSchema(
+  z.object({
+    total_found: z.number(),
+    new_entries: z.array(z.string()),
+    existing_entries: z.array(z.string()),
+  })
+);
+
+export type PullTransactionsResponse = z.infer<
+  typeof PullTransactionsResponseSchema
+>;
