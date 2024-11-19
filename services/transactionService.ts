@@ -17,7 +17,6 @@ export const fetchTransactions = async (page: number, pageSize: number) => {
 
   const json = await response.json();
 
-  // Validate and parse the response
   return TransactionsResponseSchema.parse(json);
 };
 
