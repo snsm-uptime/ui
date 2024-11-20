@@ -131,7 +131,7 @@ export default function DropdownWithDynamicButton({
         <div className="flex flex-col items-center space-y-2 p-2.5 min-w-56">
             <ButtonGroup variant="ghost" fullWidth>
                 {selectedOption !== "today" ? (
-                    <Popover placement="bottom" showArrow isOpen={isOpen}>
+                    <Popover placement="bottom" onClose={() => { setIsOpen(false) }} showArrow isOpen={isOpen}>
                         <PopoverTrigger >
                             <Button
                                 startContent={RefreshIcon}
