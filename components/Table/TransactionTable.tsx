@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Pagination, Spinner } from "@nextui-org/react";
 import {
     getKeyValue,
+    Selection,
     Table,
     TableBody,
     TableCell,
@@ -12,19 +13,26 @@ import {
 import { Transaction } from "@/models/Transaction";
 import { Pagination as PaginationSchema } from "@/models";
 import FetchOptionsDropdown from "../Refresh/FetchOptionsDropdown";
+import { SelectionMode } from "@nextui-org/table";
 
 interface TransactionTableProps {
     transactions: Transaction[];
     isLoading: boolean;
     pagination: PaginationSchema | null;
+    onPullComplete: (() => void);
     onPageChange?: ((page: number) => void) | undefined | null;
+    onSelectionChange?: (keys: Selection) => void;
+    selectionMode?: SelectionMode | undefined;
 }
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
     transactions,
     isLoading,
     pagination,
+    selectionMode,
     onPageChange,
+    onPullComplete,
+    onSelectionChange
 }) => {
     // Helper function to format the date
     const formatDate = (date: string) => {
@@ -52,10 +60,13 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     return (
         <Table
             aria-label="Transaction table with client async pagination"
+            selectionMode={selectionMode ?? "none"}
+            color="secondary"
+            onSelectionChange={onSelectionChange}
             bottomContent={
                 <div className="flex justify-between items-center">
                     {buildPagination()}
-                    <FetchOptionsDropdown />
+                    <FetchOptionsDropdown onPullComplete={onPullComplete} />
                 </div>
             }
         >

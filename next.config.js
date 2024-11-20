@@ -1,4 +1,7 @@
 const nextConfig = {
+  env: {
+    DEFAULT_ROWS: "15" //process.env.DEFAULT_ROWS || "5"
+  },
   async rewrites() {
     return [
       {

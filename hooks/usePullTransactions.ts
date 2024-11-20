@@ -1,7 +1,33 @@
-import { pullTransactions } from "@/services/transactionService";
-import { formatDate } from "@/utils/date";
+import useSWRMutation from "swr/mutation";
+import {
+  PullTransactionsResponse,
+  PullTransactionsResponseSchema,
+} from "@/models";
+import { TransactionService } from "@/services/TransactionService";
 
-export const usePullTransactions = (start_date: Date, end_date: Date) => {
-  const result = pullTransactions("2024-11-18", formatDate(end_date));
-  console.table(result);
+// Wrapper fetcher for mutation
+const fetcher = async (
+  _: string, // Endpoint argument
+  { arg }: { arg: { start_date: string; end_date: string } } // Payload argument
+): Promise<PullTransactionsResponse> => {
+  const result = await TransactionService.pullTransactions(
+    arg.start_date,
+    arg.end_date
+  );
+  return PullTransactionsResponseSchema.parse(result); // Validate the schema
+};
+
+// SWR Mutation hook for pulling transactions
+export const usePullTransactions = () => {
+  const { trigger, data, error, isMutating } = useSWRMutation(
+    `/transactions/pull`, // Cache key
+    fetcher // Fetcher function
+  );
+
+  return {
+    pullTransactions: trigger, // Function to initiate the mutation
+    data,
+    error,
+    isLoading: isMutating, // Loading state
+  };
 };
