@@ -18,7 +18,7 @@ export default function TransactionSelectionStats({ selections }: { selections: 
     }
     return (
         <TableDetailCard className="h-fit min-w-48"
-            title="Selection SUM"
+            title={<span>Selection <span className="text-secondary">SUM</span></span>}
             subtitle={`${selections.length} Items Selected`}
             children={<h4>{SelectedTotal()}</h4>} />
     );

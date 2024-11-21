@@ -32,10 +32,12 @@ const options: Record<FetchOption, { label: string; description: string }> = {
 
 interface DropdownWithDynamicButtonProps {
     onPullComplete: () => void; // Callback function
+    variant?: "bordered" | "flat" | "faded" | "ghost" | "solid" | "light" | "shadow" | undefined
 }
 
 export default function DropdownWithDynamicButton({
     onPullComplete,
+    variant
 }: DropdownWithDynamicButtonProps) {
 
     const [selectedOption, setSelectedOption] = useState<FetchOption>("today");
@@ -127,8 +129,8 @@ export default function DropdownWithDynamicButton({
     );
 
     return (
-        <div className="flex flex-col items-center space-y-2 p-2.5 min-w-56">
-            <ButtonGroup variant="ghost" fullWidth>
+        <div className="flex flex-col items-center space-y-2 w-56">
+            <ButtonGroup variant={variant} fullWidth>
                 {selectedOption !== "today" ? (
                     <Popover placement="bottom" onClose={() => { setIsOpen(false) }} showArrow isOpen={isOpen}>
                         <PopoverTrigger >

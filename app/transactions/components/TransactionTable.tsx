@@ -78,7 +78,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                 </TableColumn>
                 <TableColumn key="currency">Currency</TableColumn>
                 <TableColumn key="bank_name">Bank Name</TableColumn>
-                <TableColumn key="business_type">Business Type</TableColumn>
+                {/* <TableColumn key="business_type">Business Type</TableColumn> */}
             </TableHeader>
             <TableBody
                 items={transactions}
