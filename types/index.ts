@@ -5,3 +5,8 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export type FetchOption = "month" | "today" | "custom";
+
+export enum Currency {
+  USD = "USD", // United States Dollar
+  CRC = "CRC", // Costa Rican Colón
+}

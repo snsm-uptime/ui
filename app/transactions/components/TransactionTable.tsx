@@ -1,8 +1,10 @@
-import React from "react";
-import { Button, Pagination, Spinner } from "@nextui-org/react";
+import { Pagination as PaginationSchema } from "@/models";
+import { Transaction } from "@/models/Transaction";
+import { Pagination, Spinner } from "@nextui-org/react";
 import {
     getKeyValue,
     Selection,
+    SelectionMode,
     Table,
     TableBody,
     TableCell,
@@ -10,10 +12,8 @@ import {
     TableHeader,
     TableRow,
 } from "@nextui-org/table";
-import { Transaction } from "@/models/Transaction";
-import { Pagination as PaginationSchema } from "@/models";
-import FetchOptionsDropdown from "../Refresh/FetchOptionsDropdown";
-import { SelectionMode } from "@nextui-org/table";
+import React from "react";
+import FetchOptionsDropdown from "./FetchOptionsDropdown";
 
 interface TransactionTableProps {
     transactions: Transaction[];

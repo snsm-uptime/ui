@@ -1,4 +1,4 @@
-import { startOfToday } from "date-fns";
+import { parseISO, startOfToday } from "date-fns";
 
 export const getStartOfToday = (): Date => startOfToday();
 
@@ -11,3 +11,5 @@ export function formatDate(date: Date): string {
     day: "2-digit",
   }).format(date);
 }
+
+export const parseDateString = (dts: string): Date => parseISO(dts);

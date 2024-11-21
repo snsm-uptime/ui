@@ -12,7 +12,7 @@ import {
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { getStartOfToday, getNow, formatDate } from "@/utils/date";
 import { FetchOption } from "@/types";
-import IconDropdownMenuComponent from "../Generic/IconDropdownMenuComponent";
+import IconDropdownMenuComponent from "../../../components/Generic/IconDropdownMenuComponent";
 import { usePullTransactions } from "@/hooks/usePullTransactions";
 
 const options: Record<FetchOption, { label: string; description: string }> = {
@@ -90,7 +90,6 @@ export default function DropdownWithDynamicButton({
             }
         }
         onPullComplete();
-        // TODO: Close the popup after pull complete
     };
 
     const renderPopoverContent = () => {
