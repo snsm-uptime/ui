@@ -29,14 +29,14 @@ const periodConfig: Record<
 
 export default function SideCards({ className, children }: { className: string, children: React.ReactNode }) {
     const cards: React.ReactNode[] = Object.entries(periodConfig).map(([period, { title, range }]) => {
-        let { data, isLoading, error } = useCalculateExpenses(range);
-        let totalCRC = 0;
-        let totalUSD = 0;
-        let totals = data?.data?.item;
-        if (totals) {
-            totalCRC = totals.colones;
-            totalUSD = totals.dollars;
+        let tbs = false;
+        if (period === "daily") {
+            tbs = true;
         }
+        let { data, isLoading, error } = useCalculateExpenses(range);
+        let expenseData = data?.data?.item;
+        let totalCRC = expenseData?.CRC ?? 0;
+        let totalUSD = expenseData?.USD ?? 0;
         return (
             <ExpensesCard key={period} title={title} totalCRC={totalCRC} totalUSD={totalUSD} />
         );

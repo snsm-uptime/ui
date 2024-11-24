@@ -21,8 +21,8 @@ export type ApiResponse<T extends ZodTypeAny> = z.infer<
 export const ExpenseResponseSchema = ApiResponseSchema(
   z.object({
     item: z.object({
-      dollars: z.number(),
-      colones: z.number(),
+      USD: z.number().nullable(),
+      CRC: z.number().nullable(),
     }),
   })
 );

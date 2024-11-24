@@ -4,6 +4,8 @@ import {
   PullTransactionsResponseSchema,
   TransactionsResponseSchema,
 } from "@/models";
+import { formatDate } from "@/utils/date";
+import { startOfTomorrow } from "date-fns";
 
 export class TransactionService {
   private static BASE_URL = "/api/transactions";
@@ -26,7 +28,8 @@ export class TransactionService {
 
   // Fetch paginated transactions
   static async fetchTransactions(page: number, pageSize: number) {
-    const url = `${this.BASE_URL}?start_date=2024-01-01&end_date=2024-11-18&page=${page}&page_size=${pageSize}`;
+    const eod = startOfTomorrow();
+    const url = `${this.BASE_URL}?start_date=2024-01-01&end_date=${formatDate(eod)}&page=${page}&page_size=${pageSize}`;
 
     const response = await fetch(url);
 

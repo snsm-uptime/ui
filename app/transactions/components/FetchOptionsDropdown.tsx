@@ -10,10 +10,11 @@ import {
     Spinner,
 } from "@nextui-org/react";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
-import { getStartOfToday, getNow, formatDate } from "@/utils/date";
+import { getNow, formatDate } from "@/utils/date";
 import { FetchOption } from "@/types";
 import IconDropdownMenuComponent from "../../../components/Generic/IconDropdownMenuComponent";
 import { usePullTransactions } from "@/hooks/usePullTransactions";
+import { startOfToday, startOfTomorrow } from "date-fns";
 
 const options: Record<FetchOption, { label: string; description: string }> = {
     today: {
@@ -53,11 +54,9 @@ export default function DropdownWithDynamicButton({
         setIsOpen(false);
         switch (selectedOption) {
             case "today": {
-                const todayStart = getStartOfToday();
-                const now = getNow();
                 await pullTransactions({
-                    start_date: formatDate(todayStart),
-                    end_date: formatDate(now),
+                    start_date: formatDate(startOfToday()),
+                    end_date: formatDate(startOfTomorrow()),
                 });
                 break;
             }
@@ -161,7 +160,10 @@ export default function DropdownWithDynamicButton({
                 <IconDropdownMenuComponent
                     options={options}
                     selectedOption={selectedOption}
-                    onOptionChange={(option) => setSelectedOption(option)}
+                    onOptionChange={(option) => {
+                        if (option != "today") setIsOpen(true);
+                        setSelectedOption(option);
+                    }}
                 />
             </ButtonGroup>
             <span className="text-xs text-gray-500">

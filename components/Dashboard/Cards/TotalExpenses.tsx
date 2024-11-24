@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import { format } from 'date-fns';
+import { endOfYesterday, format, startOfTomorrow } from 'date-fns';
 
 const fetcher = (url: string) => fetch(url, { method: "GET" }).then((res) => res.json());
 
@@ -10,26 +10,26 @@ export default function TotalExpenses() {
 
     // Calculate start and end dates based on the selected date range
     const calculateDateRange = () => {
-        const today = new Date();
-        let startDate = new Date();
+        const eod = startOfTomorrow();
+        let startDate = endOfYesterday();
 
         switch (dateRange) {
             case "week":
-                startDate.setDate(today.getDate() - 7);
+                startDate.setDate(eod.getDate() - 7);
                 break;
             case "15days":
-                startDate.setDate(today.getDate() - 15);
+                startDate.setDate(eod.getDate() - 15);
                 break;
             case "month":
-                startDate.setMonth(today.getMonth() - 1);
+                startDate.setMonth(eod.getMonth() - 1);
                 break;
             default:
-                startDate = today;
+                startDate = eod;
         }
 
         return {
             start_date: format(startDate, "yyyy-MM-dd"),
-            end_date: format(today, "yyyy-MM-dd"),
+            end_date: format(eod, "yyyy-MM-dd"),
         };
     };
 
