@@ -3,13 +3,12 @@
 import TransactionTable from "@/app/transactions/components/TransactionTable";
 import { useFetchTransactions } from "@/hooks/useFetchTransactions";
 import { Transaction } from "@/models";
-import { Input, Selection } from "@nextui-org/react";
-import { Key, useState } from "react";
-import TransactionSelectionStats from "./components/SelectionStats";
-import ExpensesCard from "./components/ExpensesCard";
+import { Input, Selection, Spinner } from "@nextui-org/react";
 import clsx from "clsx";
-import FetchOptionsDropdown from "./components/FetchOptionsDropdown";
-import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
+import { Key, useState } from "react";
+import ExpensesCard from "./components/ExpensesCard";
+import TransactionSelectionStats from "./components/SelectionStats";
+import SideCards from "./components/SideCards";
 
 export default function TransactionsView() {
     const [page, setPage] = useState(1);
@@ -17,6 +16,7 @@ export default function TransactionsView() {
     const [selectedTransactions, setSelectedTransactions] = useState<
         Transaction[]
     >([]);
+
     const { data, isLoading, error, mutate } = useFetchTransactions(
         page,
         rowsPerPage
@@ -43,7 +43,7 @@ export default function TransactionsView() {
 
     if (isLoading) {
         // TODO: Table Skeleton when loading
-        return <div className="text-gray-500">Loading transactions...</div>;
+        return <div className="flex h-full items-center justify-center pb-16"><Spinner size="lg" /></div>;
     }
     const horizontalSpacing = "gap-x-4";
     const verticalSpacing = "gap-y-4";
@@ -51,9 +51,9 @@ export default function TransactionsView() {
     return (
         <div className={clsx("flex flex-col", verticalSpacing)}>
             <Input variant="bordered" type="text" label="Search" isClearable />
-            <div className={clsx("flex flex-row", horizontalSpacing)}>
-                <div className={clsx("flex flex-col", verticalSpacing)}>
-                    {selectedTransactions.length > 0 ? (
+            <div className={clsx("flex flex-col md:flex-row", horizontalSpacing, verticalSpacing)}>
+                <SideCards className={clsx("flex flex-row md:flex-col overflow-auto", verticalSpacing, horizontalSpacing)} children={
+                    selectedTransactions.length > 0 ? (
                         <div
                             className={clsx(
                                 "transition-all animate-slideDown",
@@ -63,19 +63,7 @@ export default function TransactionsView() {
                             <TransactionSelectionStats selections={selectedTransactions} />
                         </div>
                     ) : null}
-                    <ExpensesCard
-                        period="daily"
-                        transactions={transactions}
-                    ></ExpensesCard>
-                    <ExpensesCard
-                        period="weekly"
-                        transactions={transactions}
-                    ></ExpensesCard>
-                    <ExpensesCard
-                        period="monthly"
-                        transactions={transactions}
-                    ></ExpensesCard>
-                </div>
+                />
                 <TransactionTable
                     isLoading={isLoading}
                     onPageChange={(page) => {

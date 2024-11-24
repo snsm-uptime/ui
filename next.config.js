@@ -1,12 +1,16 @@
 const nextConfig = {
   env: {
-    DEFAULT_ROWS: "15" //process.env.DEFAULT_ROWS || "5"
+    DEFAULT_ROWS: "5" //process.env.DEFAULT_ROWS || "5"
   },
   async rewrites() {
     return [
       {
         source: "/api/transactions",
         destination: `${process.env.API_BASE_URL}/v1/transactions/`,
+      },
+      {
+        source: "/api/transactions/expenses",
+        destination: `${process.env.API_BASE_URL}/v1/transactions/expenses`,
       },
       {
         source: "/api/transactions/pull",

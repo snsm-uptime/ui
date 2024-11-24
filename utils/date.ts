@@ -1,4 +1,12 @@
-import { parseISO, startOfToday } from "date-fns";
+import { DateRange, TimePeriod } from "@/types";
+import {
+  format,
+  parseISO,
+  startOfMonth,
+  startOfToday,
+  startOfWeek,
+} from "date-fns";
+import {} from "date-fns";
 
 export const getStartOfToday = (): Date => startOfToday();
 
@@ -13,3 +21,27 @@ export function formatDate(date: Date): string {
 }
 
 export const parseDateString = (dts: string): Date => parseISO(dts);
+
+export function getDateRange(period: TimePeriod): DateRange {
+  const today = new Date();
+
+  switch (period) {
+    case "daily":
+      return {
+        start: format(today, "yyyy-MM-dd"),
+        end: format(today, "yyyy-MM-dd"),
+      };
+    case "weekly":
+      return {
+        start: format(startOfWeek(today), "yyyy-MM-dd"),
+        end: format(today, "yyyy-MM-dd"),
+      };
+    case "monthly":
+      return {
+        start: format(startOfMonth(today), "yyyy-MM-dd"),
+        end: format(today, "yyyy-MM-dd"),
+      };
+    default:
+      throw new Error(`Unsupported TimePeriod: ${period}`);
+  }
+}

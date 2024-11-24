@@ -21,7 +21,7 @@ const fetcher = async (
 export const usePullTransactions = () => {
   const { trigger, data, error, isMutating } = useSWRMutation(
     `/transactions/pull`, // Cache key
-    fetcher // Fetcher function
+    fetcher
   );
 
   return {

@@ -1,10 +1,28 @@
 import {
+  ExpenseResponse,
+  ExpenseResponseSchema,
   PullTransactionsResponseSchema,
   TransactionsResponseSchema,
 } from "@/models";
 
 export class TransactionService {
   private static BASE_URL = "/api/transactions";
+
+  static async calculateExpenses(
+    start_date: string,
+    end_date: string
+  ): Promise<ExpenseResponse> {
+    const url = `${this.BASE_URL}/expenses?start_date=${start_date}&end_date=${end_date}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch transactions: ${response.statusText}`);
+    }
+
+    const json = await response.json();
+
+    return ExpenseResponseSchema.parse(json); // Validate response schema
+  }
 
   // Fetch paginated transactions
   static async fetchTransactions(page: number, pageSize: number) {

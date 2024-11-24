@@ -10,3 +10,7 @@ export enum Currency {
   USD = "USD", // United States Dollar
   CRC = "CRC", // Costa Rican Colón
 }
+
+export type TimePeriod = "daily" | "weekly" | "monthly";
+
+export type DateRange = { start: string; end: string };

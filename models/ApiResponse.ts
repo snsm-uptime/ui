@@ -18,6 +18,16 @@ export type ApiResponse<T extends ZodTypeAny> = z.infer<
   ReturnType<typeof ApiResponseSchema<T>>
 >;
 
+export const ExpenseResponseSchema = ApiResponseSchema(
+  z.object({
+    item: z.object({
+      dollars: z.number(),
+      colones: z.number(),
+    }),
+  })
+);
+export type ExpenseResponse = z.infer<typeof ExpenseResponseSchema>;
+
 export const TransactionsResponseSchema = ApiResponseSchema(
   z.object({
     pagination: PaginationSchema,
