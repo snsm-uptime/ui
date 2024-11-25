@@ -9,6 +9,10 @@ const nextConfig = {
         destination: `${process.env.API_BASE_URL}/v1/transactions/`,
       },
       {
+        source: "/api/transactions/metrics",
+        destination: `${process.env.API_BASE_URL}/v1/transactions/metrics`,
+      },
+      {
         source: "/api/transactions/expenses",
         destination: `${process.env.API_BASE_URL}/v1/transactions/expenses`,
       },

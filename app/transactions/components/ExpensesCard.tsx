@@ -1,9 +1,6 @@
 import CurrecySpan from "@/components/FormattedText/CurrencySpan";
 import TableDetailCard from "@/components/Table/TableDetailCard";
-import { useCalculateExpenses } from "@/hooks/useCalculateExpenses";
-import { Currency, DateRange, TimePeriod } from "@/types";
-import { getDateRange, parseDateString } from "@/utils/date";
-import { isToday, isThisWeek, isThisMonth, format, startOfWeek, endOfWeek } from "date-fns";
+import { Currency } from "@/types";
 
 
 

@@ -1,6 +1,6 @@
-import { PaginationSchema } from "@/models/Pagination";
-import { TransactionSchema } from "@/models/Transaction";
-import { z, ZodTypeAny } from "zod";
+import {PaginationSchema} from "@/models/Pagination";
+import {TransactionSchema} from "@/models/Transaction";
+import {z, ZodTypeAny} from "zod";
 
 // Define the generic ApiResponseSchema factory
 export const ApiResponseSchema = <T extends ZodTypeAny>(dataSchema: T) =>
@@ -27,6 +27,27 @@ export const ExpenseResponseSchema = ApiResponseSchema(
   })
 );
 export type ExpenseResponse = z.infer<typeof ExpenseResponseSchema>;
+
+export const TransactionMetricsByPeriodResponseSchema = ApiResponseSchema(
+  z.object({
+    item: z
+      .array(
+        z.object({
+          period_start: z.string(),
+          currency: z.string(),
+          total: z.number(),
+          avg_transaction: z.number(),
+          min_value: z.number(),
+          max_value: z.number(),
+          period_currency_pct: z.number(),
+        })
+      )
+      .nullable(),
+  })
+);
+export type TransactionMetricsByPeriodResponse = z.infer<
+  typeof TransactionMetricsByPeriodResponseSchema
+>;
 
 export const TransactionsResponseSchema = ApiResponseSchema(
   z.object({

@@ -9,6 +9,7 @@ export type FetchOption = "month" | "today" | "custom";
 export enum Currency {
   USD = "USD", // United States Dollar
   CRC = "CRC", // Costa Rican Colón
+  MXP = "MXP",
 }
 
 export type TimePeriod = "daily" | "weekly" | "monthly" | "yearly";
