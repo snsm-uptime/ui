@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import {SVGProps} from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -11,6 +11,6 @@ export enum Currency {
   CRC = "CRC", // Costa Rican Colón
 }
 
-export type TimePeriod = "daily" | "weekly" | "monthly";
+export type TimePeriod = "daily" | "weekly" | "monthly" | "yearly";
 
-export type DateRange = { start: string; end: string };
+export type DateRange = {start: string; end: string};
