@@ -1,6 +1,7 @@
 import { useFetchTransactionMetricsByPeriod } from "@/hooks/useFetchMetricsByPeriod";
 import { Currency, DateRange, TimePeriod } from "@/types";
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import clsx from "clsx";
+import { Area, AreaChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 type RawDataItem = {
     period_start: string;
@@ -46,31 +47,39 @@ export default function BarChart({ date_range, period }: { date_range: DateRange
     if (content) {
         const pd = processedData(content!)
         console.table(pd);
-        return <LineChart
-            width={900}
-            height={300}
-            data={pd}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-            }}
-        >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="period_start" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {Object.values(Currency).map((currency) => (
-                <Line
-                    key={currency}
-                    type="monotone"
-                    dataKey={currency}
-                    activeDot={{ r: 8 }}
-                />
-            ))}
-        </LineChart>
+        const sid = `${period}${date_range.start}_${date_range.end}`
+        return <div>
+            {
+                Object.values(Currency).map((currency) => (
+                    <div>
+                        <h1>Total expenses in {currency}</h1>
+                        <AreaChart
+                            width={900}
+                            height={300}
+                            data={pd}
+                            syncId={sid}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis hide dataKey="period_start" />
+                            <YAxis />
+                            <Tooltip contentStyle={{ background: "rgba(55,55,55,0.9)" }} />
+                            <Area
+                                dataKey={currency}
+                                type="monotone"
+                                fill="#8884d8"
+                                stroke="#8884d8"
+                            />
+                        </AreaChart>
+                    </div>
+                ))
+            }
+        </div>
     }
     else {
         return "NO DATA"
