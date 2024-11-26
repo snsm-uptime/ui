@@ -34,7 +34,6 @@ export const TransactionMetricsByPeriodResponseSchema = ApiResponseSchema(
       .array(
         z.object({
           period_start: z.string(),
-          currency: z.string(),
           total: z.number(),
           avg_transaction: z.number(),
           min_value: z.number(),

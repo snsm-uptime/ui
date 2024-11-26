@@ -5,18 +5,20 @@ import {
   TransactionsResponseSchema,
 } from "@/models";
 import {TransactionService} from "@/services/TransactionService";
-import {TimePeriod} from "@/types";
+import {Currency, TimePeriod} from "@/types";
 
 // Wrapper fetcher to handle parsing with Zod
 const fetcher = async (
   start_date: string,
   end_date: string,
-  period: TimePeriod
+  period: TimePeriod,
+  currency: Currency
 ): Promise<TransactionMetricsByPeriodResponse> => {
   const result = await TransactionService.fetchTransactionMetricsByPeriod(
     start_date,
     end_date,
-    period
+    period,
+    currency
   );
   return result;
 };
@@ -25,11 +27,12 @@ const fetcher = async (
 export const useFetchTransactionMetricsByPeriod = (
   start_date: string,
   end_date: string,
-  period: TimePeriod
+  period: TimePeriod,
+  currency: Currency
 ) => {
   const {data, error, isValidating, mutate} = useSWR(
-    [`/transactions/metrics`, start_date, end_date, period],
-    () => fetcher(start_date, end_date, period),
+    [`/transactions/metrics`, start_date, end_date, period, currency],
+    () => fetcher(start_date, end_date, period, currency),
     {revalidateOnFocus: false} // Optional SWR options
   );
 
