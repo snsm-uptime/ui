@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar-track {
-  color: red;
+:root {
+  --bg-z0: #11aa55;
+}
+[data-theme="dark"] {
+  --bg-z0: #8e8eaf;
 }

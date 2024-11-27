@@ -28,20 +28,20 @@ export const ExpenseResponseSchema = ApiResponseSchema(
 );
 export type ExpenseResponse = z.infer<typeof ExpenseResponseSchema>;
 
+export const MetricsByPeriodSchema = z.object({
+  period_start: z.string(),
+  total: z.number(),
+  avg_transaction: z.number(),
+  min_value: z.number(),
+  max_value: z.number(),
+  period_currency_pct: z.number(),
+});
+
+export type MetricsByPeriod = z.infer<typeof MetricsByPeriodSchema>;
+
 export const TransactionMetricsByPeriodResponseSchema = ApiResponseSchema(
   z.object({
-    item: z
-      .array(
-        z.object({
-          period_start: z.string(),
-          total: z.number(),
-          avg_transaction: z.number(),
-          min_value: z.number(),
-          max_value: z.number(),
-          period_currency_pct: z.number(),
-        })
-      )
-      .nullable(),
+    item: z.array(MetricsByPeriodSchema).nullable(),
   })
 );
 export type TransactionMetricsByPeriodResponse = z.infer<

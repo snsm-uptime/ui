@@ -37,7 +37,7 @@ export const useFetchTransactionMetricsByPeriod = (
   );
 
   return {
-    data,
+    metrics: data,
     error,
     isLoading: !error && !data && isValidating,
     mutate,

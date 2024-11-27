@@ -1,39 +1,33 @@
 import { useFetchTransactionMetricsByPeriod } from "@/hooks/useFetchMetricsByPeriod";
 import { Currency, DateRange, TimePeriod } from "@/types";
-import clsx from "clsx";
-import { format, formatDate } from "date-fns";
-import { PureComponent } from "react";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { format, parseISO } from "date-fns";
+import { MetricsByPeriod } from "@/models";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts";
 
-type RawDataItem = {
-    period_start: string;
-    currency: string;
-    total: number;
-};
-
-type ProcessedDataItem = {
-    period_start: string;
-    CRC?: number;
-    USD?: number;
-    [key: string]: number | string | undefined;
-};
 
 export default function CurrencyExpensesByPeriodChart({ date_range, period, currency }: { date_range: DateRange, period: TimePeriod, currency: Currency }) {
-    const { data, isLoading, error, mutate } = useFetchTransactionMetricsByPeriod(date_range.start, date_range.end, period, currency)
-    let content = data?.data?.item
-    if (content) {
+    const { metrics, isLoading, error, mutate } = useFetchTransactionMetricsByPeriod(date_range.start, date_range.end, period, currency)
+    let content: MetricsByPeriod[] = metrics?.data?.item ?? []
+    if (!isLoading && content.length > 0) {
+        content = content.map((item) => ({ ...item, period_start: format(parseISO(item.period_start), "MMM d") }))
         const sid = `${period}${date_range.start}_${date_range.end}`
         return <div>
             <h1>Total expenses in {currency}</h1>
-            <AreaChart
-                width={900}
-                height={300}
+            <ComposedChart
+                width={500}
+                height={200}
                 data={content}
                 syncId={sid}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis hide dataKey="period_start" />
+                <CartesianGrid strokeDasharray="5 5" />
+                <Tooltip contentStyle={{ background: "var(--bg-z0)" }} />
+                <Legend />
+                <YAxis />
+                <XAxis dataKey="period_start" hide={period == "daily"} />
+                <Line dataKey="max_value" stroke={colors[0]} fill={colors[0]} />
+                <Line dataKey="avg_transaction" stroke={colors[1]} fill={colors[1]} />
 
-            </AreaChart>
+
+            </ComposedChart>
         </div>
     }
     else {
