@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { TransactionsResponse, TransactionsResponseSchema } from "@/models";
-import { TransactionService } from "@/services/TransactionService";
+import {TransactionsResponse, TransactionsResponseSchema} from "@/models";
+import {TransactionService} from "@/services/TransactionService";
 
 // Wrapper fetcher to handle parsing with Zod
 const fetcher = async (
@@ -13,10 +13,10 @@ const fetcher = async (
 
 // SWR hook for fetching transactions
 export const useFetchTransactions = (page: number, pageSize: number) => {
-  const { data, error, isValidating, mutate } = useSWR(
+  const {data, error, isValidating, mutate} = useSWR(
     [`/transactions`, page, pageSize], // Cache key based on page and pageSize
     () => fetcher(page, pageSize), // Fetcher function
-    { revalidateOnFocus: false } // Optional SWR options
+    {revalidateOnFocus: false} // Optional SWR options
   );
 
   return {

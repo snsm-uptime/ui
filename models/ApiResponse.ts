@@ -1,5 +1,6 @@
 import {PaginationSchema} from "@/models/Pagination";
 import {TransactionSchema} from "@/models/Transaction";
+import {Currency} from "@/types";
 import {z, ZodTypeAny} from "zod";
 
 // Define the generic ApiResponseSchema factory
@@ -20,10 +21,7 @@ export type ApiResponse<T extends ZodTypeAny> = z.infer<
 
 export const ExpenseResponseSchema = ApiResponseSchema(
   z.object({
-    item: z.object({
-      USD: z.number().nullable(),
-      CRC: z.number().nullable(),
-    }),
+    item: z.record(z.nativeEnum(Currency), z.number().nullable()),
   })
 );
 export type ExpenseResponse = z.infer<typeof ExpenseResponseSchema>;

@@ -6,10 +6,10 @@ import React, { ReactNode } from "react";
 const CARD_HEIGHT = "h-[200px]";
 
 interface DashboardLayoutProps {
-    rowItems: CardContent[]; // List of items for the first row
-    topLeft: CardContent; // Component for the top-left card (Card 7)
-    bottomLeft: CardContent; // Component for the bottom-left card (Card 8)
-    right: ReactNode; // Component for the right card (Card 9)
+    rowItems: CardContent[];
+    topLeft: CardContent;
+    bottomLeft: CardContent;
+    right: ReactNode;
 }
 
 export default function DashboardLayout({ rowItems, topLeft, bottomLeft, right }: DashboardLayoutProps) {
@@ -19,9 +19,9 @@ export default function DashboardLayout({ rowItems, topLeft, bottomLeft, right }
             <div className="flex flex-wrap gap-4">
                 {rowItems.map((content, index) => (
                     <Card key={index} className={clsx("flex-1 min-w-[200px]", CARD_HEIGHT)}>
-                        {content.header}
-                        {content.body}
-                        {content.footer}
+                        {content.header && <CardHeader>{content.header}</CardHeader>}
+                        {content.body && <CardHeader>{content.body}</CardHeader>}
+                        {content.footer && <CardHeader>{content.footer}</CardHeader>}
                     </Card>
                 ))}
             </div>
@@ -29,22 +29,22 @@ export default function DashboardLayout({ rowItems, topLeft, bottomLeft, right }
             {/* Second Row */}
             <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-x-0 lg:gap-4">
                 {/* First Column */}
-                <div className="grid grid-rows-[auto,1fr] gap-4 md:col-span-2">
+                <div className="grid grid-rows-[auto,1fr] gap-4">
                     {/* Top Left Card */}
                     <Card className={CARD_HEIGHT}>
-                        {topLeft.header}
-                        {topLeft.body}
-                        {topLeft.footer}
+                        {topLeft.header && <CardHeader>{topLeft.header}</CardHeader>}
+                        {topLeft.body && <CardBody>{topLeft.body}</CardBody>}
+                        {topLeft.footer && <CardFooter>{topLeft.footer}</CardFooter>}
                     </Card>
                     {/* Bottom Left Card */}
-                    <Card className="bg-white shadow-md rounded-lg p-4 flex-grow">
-                        {bottomLeft.header}
-                        {bottomLeft.body}
-                        {bottomLeft.footer}
+                    <Card className="flex-grow">
+                        {bottomLeft.header && <CardHeader>{bottomLeft.header}</CardHeader>}
+                        {bottomLeft.body && <CardBody>{bottomLeft.body}</CardBody>}
+                        {bottomLeft.footer && <CardFooter>{bottomLeft.footer}</CardFooter>}
                     </Card>
                 </div>
                 {/* Right Card */}
-                <div className="bg-white shadow-md rounded-lg p-4">{right}</div>
+                <div className=" md:col-span-2">{right}</div>
             </div>
         </div>
     );
