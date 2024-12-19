@@ -122,7 +122,7 @@ export default function DropdownWithDynamicButton({
     };
 
     const RefreshIcon = isLoading ? (
-        <Spinner size="sm" color="default" />
+        <Spinner size="sm" color="primary" />
     ) : (
         <ArrowDownTrayIcon className="size-5" />
     );

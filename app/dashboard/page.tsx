@@ -1,7 +1,7 @@
 "use client";
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
-import { CardContent, Currency } from "@/types";
-import { CardBody, CardHeader } from "@nextui-org/react";
+import { CardContent, TimePeriod } from "@/types";
+import { Button, CardBody, CardHeader, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import clsx from "clsx";
 import TotalFromTransactionsOverTimeChart from "../reports/charts/TotalFromTransactionsOverTimeChart";
 import { Key, useState } from "react";
@@ -14,6 +14,8 @@ import ExpensesCard from "../transactions/components/ExpensesCard";
 import CurrencySpan from "@/components/FormattedText/CurrencySpan";
 import { useCalculateExpenses } from "@/hooks/useCalculateExpenses";
 import { getDateRange } from "@/utils/date";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import PeriodSumamry from "../reports/components/PeriodSummary";
 
 export default function DashboardView() {
     const [page, setPage] = useState(1);
@@ -43,20 +45,53 @@ export default function DashboardView() {
             );
     };
 
-    const [currency, setCurrency] = useState<Currency>(Currency.CRC);
+    const [currency, setCurrency] = useState<string>("CRC");
 
 
     let { data: dailyExpensesData, isLoading: isDailyExpensesLoading, error: dailyExpensesError } = useCalculateExpenses(getDateRange("daily"));
-    let expenseData = dailyExpensesData?.data?.item;
+    let dailyExpenseData = dailyExpensesData?.data?.item;
+
+    const TimePeriodDropdownMenu = () => {
+        const timePeriods: TimePeriod[] = ["daily", "weekly", "monthly", "yearly"];
+
+        return (
+            <DropdownMenu>
+                {timePeriods.map((period) => {
+                    const range = getDateRange(period);
+                    return <DropdownItem key={period}>
+                        {`${period.charAt(0).toUpperCase() + period.slice(1)}`}
+                    </DropdownItem>
+                })}
+            </DropdownMenu>
+        );
+    };
 
     const styles = {
         cardHeader: clsx("text-md font-bold"),
 
     }
-    const dailyStatistics = {
-        header: <h3 className={styles.cardHeader}>Today's Summary</h3>, body:
+    const periodStatistics = {
+        header: <div className="flex justify-between items-center w-full">
+            <h3 className={styles.cardHeader}>Today's Summary</h3>
+            <Dropdown>
+                <DropdownTrigger>
+                    <Button
+                        size="sm"
+                        isIconOnly
+                        variant="light"
+                        aria-label="Select Period"
+                        className="absolute right-[12px]"
+                    >
+                        <EllipsisVerticalIcon />
+                    </Button>
+                </DropdownTrigger>
+                <TimePeriodDropdownMenu />
+            </Dropdown>
+
+        </div>
+        , body:
             <div className="flex flex-col">
-                {expenseData ? Object.entries(expenseData).map(([currency, value]) => <CurrencySpan currency={currency as Currency} value={value ?? 0} />) : <span>No transactions as of now</span>}
+                {/* {dailyExpenseData ? Object.entries(dailyExpenseData).map(([currency, value]) => <CurrencySpan currency={currency} value={value ?? 0} />) : <span>No transactions as of now</span>} */}
 
             </div>
     };
@@ -67,7 +102,7 @@ export default function DashboardView() {
     const chartView = { header: <CardHeader>header</CardHeader>, body: <CardBody>demo</CardBody> };
 
     const firstRowItems: CardContent[] = [
-        dailyStatistics,
+        periodStatistics,
         weeklyTransactionsBarChart,
         monthlyTransactionsBarChart
     ];

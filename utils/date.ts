@@ -1,10 +1,11 @@
-import { DateRange, TimePeriod } from "@/types";
+import {DateRange, TimePeriod} from "@/types";
 import {
   format,
   parseISO,
   startOfMonth,
   startOfTomorrow,
   startOfWeek,
+  startOfYear,
 } from "date-fns";
 import {} from "date-fns";
 
@@ -38,6 +39,11 @@ export function getDateRange(period: TimePeriod): DateRange {
     case "monthly":
       return {
         start: format(startOfMonth(today), "yyyy-MM-dd"),
+        end: format(tomorrow, "yyyy-MM-dd"),
+      };
+    case "yearly":
+      return {
+        start: format(startOfYear(today), "yyyy-MM-dd"),
         end: format(tomorrow, "yyyy-MM-dd"),
       };
     default:

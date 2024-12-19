@@ -1,5 +1,6 @@
 import { CardContent } from "@/types";
 import { Card, CardBody, CardHeader, CardFooter } from "@nextui-org/card";
+import { Divider } from "@nextui-org/react";
 import clsx from "clsx";
 import React, { ReactNode } from "react";
 
@@ -20,6 +21,7 @@ export default function DashboardLayout({ rowItems, topLeft, bottomLeft, right }
                 {rowItems.map((content, index) => (
                     <Card key={index} className={clsx("flex-1 min-w-[200px]", CARD_HEIGHT)}>
                         {content.header && <CardHeader>{content.header}</CardHeader>}
+                        <Divider />
                         {content.body && <CardHeader>{content.body}</CardHeader>}
                         {content.footer && <CardHeader>{content.footer}</CardHeader>}
                     </Card>
@@ -33,6 +35,7 @@ export default function DashboardLayout({ rowItems, topLeft, bottomLeft, right }
                     {/* Top Left Card */}
                     <Card className={CARD_HEIGHT}>
                         {topLeft.header && <CardHeader>{topLeft.header}</CardHeader>}
+                        <Divider />
                         {topLeft.body && <CardBody>{topLeft.body}</CardBody>}
                         {topLeft.footer && <CardFooter>{topLeft.footer}</CardFooter>}
                     </Card>

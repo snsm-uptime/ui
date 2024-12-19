@@ -1,7 +1,7 @@
 "use client";
 import { useFetchTransactionMetricsByPeriod } from "@/hooks/useFetchMetricsByPeriod";
 import { MetricsByPeriod, TransactionMetricsByPeriodResponse } from "@/models";
-import { DateRange, TimePeriod, Currency } from "@/types";
+import { DateRange, TimePeriod, } from "@/types";
 import { startOfMonth, endOfMonth, format, formatDate, parseISO, startOfYear, subMonths } from "date-fns";
 import { useState } from "react";
 import { Bar, BarChart as BC, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -34,7 +34,7 @@ const setDefaultRange = (period: TimePeriod) => {
     return { start: prepare(start), end: prepare(now) }
 }
 
-export default function TotalFromTransactionsOverTimeChart({ leftCornerContent, period, currency }: { leftCornerContent?: React.ReactNode, period: TimePeriod, currency: Currency }) {
+export default function TotalFromTransactionsOverTimeChart({ leftCornerContent, period, currency }: { leftCornerContent?: React.ReactNode, period: TimePeriod, currency: string }) {
     const [selectedRange, setSelectedRange] = useState<{
         start: string;
         end: string;
@@ -49,7 +49,7 @@ export default function TotalFromTransactionsOverTimeChart({ leftCornerContent, 
     }
 
     return (
-        <div className="flex items-center justify-center" style={{ width: "100%", height: "200px" }}>
+        <div className="flex items-center justify-center" style={{ width: "100%", height: "100px" }}>
             <Spinner size="lg" />
         </div>
     );
