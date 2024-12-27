@@ -27,28 +27,28 @@ interface TimePeriodConfig {
 
 export const TimePeriodOptions: Record<TimePeriod, TimePeriodConfig> = {
   daily: {
-    label: "Today",
+    label: "Daily",
     getRange: () => ({
       start: format(startOfDay(new Date()), "yyyy-MM-dd"),
       end: format(endOfDay(new Date()), "yyyy-MM-dd"),
     }),
   },
   weekly: {
-    label: "This Week",
+    label: "By Week",
     getRange: () => ({
       start: format(startOfWeek(new Date()), "yyyy-MM-dd"),
       end: format(endOfWeek(new Date()), "yyyy-MM-dd"),
     }),
   },
   monthly: {
-    label: "This Month",
+    label: "By Month",
     getRange: () => ({
       start: format(startOfMonth(new Date()), "yyyy-MM-dd"),
       end: format(endOfMonth(new Date()), "yyyy-MM-dd"),
     }),
   },
   yearly: {
-    label: "This Year",
+    label: "Yearly",
     getRange: () => ({
       start: format(startOfYear(new Date()), "yyyy-MM-dd"),
       end: format(endOfYear(new Date()), "yyyy-MM-dd"),

@@ -18,6 +18,7 @@ const renderBarChart = (metrics: MetricsByPeriod[]) =>
             <Bar dataKey="total" fill={colors[0]} />
         </BC>
     </ResponsiveContainer>
+
 const setDefaultRange = (period: TimePeriod) => {
     const prepare = (date: Date) => format(date, "yyyy-MM-dd")
     let now = new Date();

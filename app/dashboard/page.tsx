@@ -9,13 +9,11 @@ import { Selection } from "@nextui-org/react";
 import TransactionTable from "../transactions/components/TransactionTable";
 import { Transaction } from "@/models";
 import { useFetchTransactions } from "@/hooks/useFetchTransactions";
-import TotalExpenses from "@/components/Dashboard/Cards/TotalExpenses";
 import ExpensesCard from "../transactions/components/ExpensesCard";
-import CurrencySpan from "@/components/FormattedText/CurrencySpan";
 import { useCalculateExpenses } from "@/hooks/useCalculateExpenses";
 import { getDateRange } from "@/utils/date";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import PeriodSumamry from "../reports/components/PeriodSummary";
+import PeriodSummary from "../reports/PeriodSummaryCard";
 
 export default function DashboardView() {
     const [page, setPage] = useState(1);

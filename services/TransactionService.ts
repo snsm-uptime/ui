@@ -6,7 +6,7 @@ import {
   TransactionMetricsByPeriodResponseSchema,
   TransactionsResponseSchema,
 } from "@/models";
-import {Currency, TimePeriod} from "@/types";
+import {TimePeriod} from "@/types";
 import {formatDate} from "@/utils/date";
 import {startOfTomorrow} from "date-fns";
 
@@ -33,7 +33,7 @@ export class TransactionService {
     start_date: string,
     end_date: string,
     period: TimePeriod,
-    currency: Currency
+    currency: string
   ): Promise<TransactionMetricsByPeriodResponse> {
     const url = `${this.BASE_URL}/metrics?start_date=${start_date}&end_date=${end_date}&period=${period}&currency=${currency}`;
 
