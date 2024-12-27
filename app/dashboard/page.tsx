@@ -14,6 +14,7 @@ import { useCalculateExpenses } from "@/hooks/useCalculateExpenses";
 import { getDateRange } from "@/utils/date";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import PeriodSummary from "../reports/PeriodSummaryCard";
+import { TransactionsTable } from "@/components/TransactionsTable";
 
 export default function DashboardView() {
     const [page, setPage] = useState(1);
@@ -106,22 +107,22 @@ export default function DashboardView() {
     ];
 
     return (
-        <DashboardLayout
-            rowItems={firstRowItems}
-            topLeft={dailyTransactionsBarChart}
-            bottomLeft={chartView}
-            right={<TransactionTable
-                isLoading={isTransactionsLoading}
-                onPageChange={(page) => {
-                    setPage(page);
-                    setSelectedTransactions([]);
-                }}
-                onPullComplete={() => mutateTransactions()}
-                onSelectionChange={onSelectionChange}
-                pagination={pagination}
-                selectionMode="multiple"
+        // <DashboardLayout
+        //     rowItems={firstRowItems}
+        //     topLeft={dailyTransactionsBarChart}
+        //     bottomLeft={chartView}
+        // right = {}
+        // />
+        < div className="gap-4 h-full flex flex-col" >
+            <TransactionsTable
                 transactions={transactions}
-            />}
-        />
+                isLoading={isTransactionsLoading}
+                pagination={pagination}
+                onPullComplete={mutateTransactions}
+                onPageChange={(page) => setPage(page)}
+                onSelectionChange={onSelectionChange}
+                selectionMode="multiple"
+            />
+        </div >
     );
 }
