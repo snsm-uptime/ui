@@ -7,7 +7,7 @@ import TotalFromTransactionsOverTimeChart from "../reports/charts/TotalFromTrans
 import { Key, useState } from "react";
 import { Selection } from "@nextui-org/react";
 import TransactionTable from "../transactions/components/TransactionTable";
-import { Transaction } from "@/models";
+import { Transaction, TransactionsResponse, TransactionsResponseSchema } from "@/models";
 import { useFetchTransactions } from "@/hooks/useFetchTransactions";
 import ExpensesCard from "../transactions/components/ExpensesCard";
 import { useCalculateExpenses } from "@/hooks/useCalculateExpenses";
@@ -15,6 +15,7 @@ import { getDateRange } from "@/utils/date";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import PeriodSummary from "../reports/PeriodSummaryCard";
 import { TransactionsTable } from "@/components/TransactionsTable";
+import { TransactionService } from "@/services/TransactionService";
 
 export default function DashboardView() {
     const [page, setPage] = useState(1);
@@ -105,6 +106,14 @@ export default function DashboardView() {
         weeklyTransactionsBarChart,
         monthlyTransactionsBarChart
     ];
+    const fetcher = async (
+        page: number,
+        pageSize: number
+    ): Promise<TransactionsResponse> => {
+        const result = await TransactionService.fetchTransactions(page, pageSize);
+        return TransactionsResponseSchema.parse(result); // Validate the schema
+    };
+
 
     return (
         // <DashboardLayout
@@ -115,13 +124,14 @@ export default function DashboardView() {
         // />
         < div className="gap-4 h-full flex flex-col" >
             <TransactionsTable
-                transactions={transactions}
-                isLoading={isTransactionsLoading}
-                pagination={pagination}
-                onPullComplete={mutateTransactions}
-                onPageChange={(page) => setPage(page)}
+                fetchTransactions={fetcher}
                 onSelectionChange={onSelectionChange}
                 selectionMode="multiple"
+
+            />
+            <TransactionsTable
+                hideFetchDropdown
+                fetchTransactions={fetcher}
             />
         </div >
     );

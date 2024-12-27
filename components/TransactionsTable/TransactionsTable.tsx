@@ -1,40 +1,70 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Spinner } from "@nextui-org/react";
 import {
-    getKeyValue,
-    Selection,
     Table,
     TableBody,
     TableCell,
     TableColumn,
     TableHeader,
     TableRow,
+    Selection,
+    SelectionMode,
+    getKeyValue,
 } from "@nextui-org/table";
 import { Transaction } from "@/models/Transaction";
-import { Pagination as PaginationSchema } from "@/models";
-import { SelectionMode } from "@nextui-org/table";
+import { Pagination as PaginationSchema, TransactionsResponse } from "@/models";
 import TableFooter from "./TableFooter";
 import { formatDate } from "@/utils/date";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface TransactionTableProps {
-    transactions: Transaction[];
-    isLoading: boolean;
-    pagination: PaginationSchema | null;
-    onPullComplete: () => void;
-    onPageChange?: (page: number) => void;
-    onSelectionChange?: (keys: Selection) => void;
+    fetchTransactions: (page: number, pageSize: number) => Promise<TransactionsResponse>;
     selectionMode?: SelectionMode;
+    hideFetchDropdown?: boolean;
+    onSelectionChange?: (keys: Selection) => void;
 }
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
-    transactions,
-    isLoading,
-    pagination,
+    fetchTransactions,
     selectionMode = "none",
-    onPageChange,
-    onPullComplete,
+    hideFetchDropdown = false,
     onSelectionChange,
 }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const currentPage = Number(searchParams.get("p") ?? "1");
+    const currentPageSize = Number(searchParams.get("page-size") ?? process.env.DEFAULT_ROWS!);
+
+    const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+    const [pagination, setPagination] = React.useState<PaginationSchema | null>(null);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
+    // Fetch transactions whenever the current page changes
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetchTransactions(currentPage, currentPageSize);
+                setTransactions(response.data?.items ?? []);
+                setPagination(response.data?.pagination ?? null);
+            } catch (error) {
+                console.error("Error fetching transactions:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, [currentPage, fetchTransactions]);
+
+    // Change the page in the URL
+    const handlePageChange = (page: number) => {
+        let path = `?p=${page}`
+        if (currentPageSize != parseInt(process.env.DEFAULT_ROWS!))
+            path += `&page-size=${currentPageSize}`;
+        router.push(path, { scroll: false });
+    };
+
     return (
         <Table
             aria-label="Transaction table with client async pagination"
@@ -44,8 +74,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             bottomContent={
                 <TableFooter
                     pagination={pagination}
-                    onPageChange={onPageChange}
-                    onPullComplete={onPullComplete}
+                    hideFetchDropdown={hideFetchDropdown}
+                    onPageChange={handlePageChange}
+                    onPullComplete={() => handlePageChange(currentPage)}
                 />
             }
         >
@@ -64,27 +95,14 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                 loadingState={isLoading ? "loading" : "idle"}
             >
                 {(item) => (
-                    <TableRow key={item?.id}>
-                        {(columnKey) => {
-                            switch (columnKey) {
-                                case "date":
-                                    return (
-                                        <TableCell>
-                                            {item.date ? formatDate(new Date(item.date)) : "N/A"}
-                                        </TableCell>
-                                    );
-                                case "value":
-                                    return (
-                                        <TableCell className="text-right">
-                                            {item.value.toFixed(2)}
-                                        </TableCell>
-                                    );
-                                default:
-                                    return (
-                                        <TableCell>{getKeyValue(item, columnKey) ?? "N/A"}</TableCell>
-                                    );
-                            }
-                        }}
+                    <TableRow key={item.id}>
+                        {(columnKey) => (
+                            <TableCell>
+                                {columnKey === "date"
+                                    ? formatDate(new Date(item.date))
+                                    : getKeyValue(item, columnKey as keyof Transaction) ?? "N/A"}
+                            </TableCell>
+                        )}
                     </TableRow>
                 )}
             </TableBody>

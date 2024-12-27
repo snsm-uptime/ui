@@ -5,14 +5,14 @@ import {
   TransactionsResponseSchema,
 } from "@/models";
 import {TransactionService} from "@/services/TransactionService";
-import {Currency, TimePeriod} from "@/types";
+import {TimePeriod} from "@/types";
 
 // Wrapper fetcher to handle parsing with Zod
 const fetcher = async (
   start_date: string,
   end_date: string,
   period: TimePeriod,
-  currency: Currency
+  currency: string
 ): Promise<TransactionMetricsByPeriodResponse> => {
   const result = await TransactionService.fetchTransactionMetricsByPeriod(
     start_date,
@@ -28,7 +28,7 @@ export const useFetchTransactionMetricsByPeriod = (
   start_date: string,
   end_date: string,
   period: TimePeriod,
-  currency: Currency
+  currency: string
 ) => {
   const {data, error, isValidating, mutate} = useSWR(
     [`/transactions/metrics`, start_date, end_date, period, currency],
