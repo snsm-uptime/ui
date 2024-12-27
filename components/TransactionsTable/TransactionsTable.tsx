@@ -14,6 +14,7 @@ import { Transaction } from "@/models/Transaction";
 import { Pagination as PaginationSchema } from "@/models";
 import { SelectionMode } from "@nextui-org/table";
 import TableFooter from "./TableFooter";
+import { formatDate } from "@/utils/date";
 
 interface TransactionTableProps {
     transactions: Transaction[];
@@ -64,11 +65,26 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             >
                 {(item) => (
                     <TableRow key={item?.id}>
-                        {(columnKey) => (
-                            <TableCell>
-                                {getKeyValue(item, columnKey) ?? "N/A"}
-                            </TableCell>
-                        )}
+                        {(columnKey) => {
+                            switch (columnKey) {
+                                case "date":
+                                    return (
+                                        <TableCell>
+                                            {item.date ? formatDate(new Date(item.date)) : "N/A"}
+                                        </TableCell>
+                                    );
+                                case "value":
+                                    return (
+                                        <TableCell className="text-right">
+                                            {item.value.toFixed(2)}
+                                        </TableCell>
+                                    );
+                                default:
+                                    return (
+                                        <TableCell>{getKeyValue(item, columnKey) ?? "N/A"}</TableCell>
+                                    );
+                            }
+                        }}
                     </TableRow>
                 )}
             </TableBody>
